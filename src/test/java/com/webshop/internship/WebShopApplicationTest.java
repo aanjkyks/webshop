@@ -5,6 +5,7 @@ import com.webshop.internship.model.Product;
 import com.webshop.internship.repository.ProductRepository;
 import com.webshop.internship.service.ProductService;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,7 @@ public class WebShopApplicationTest {
                 HttpMethod.GET, null, new ParameterizedTypeReference <Iterable <Product>>() {
                 });
         Iterable <Product> products = responseEntity.getBody();
-        Assertions
-                .assertThat(products)
-                .hasSize(7);
+        Assertions.assertThat(products).hasSize(7);
 
         assertThat(products, hasItem(hasProperty("name", is("TV Set"))));
         assertThat(products, hasItem(hasProperty("name", is("Game Console"))));
@@ -64,7 +63,10 @@ public class WebShopApplicationTest {
         assertThat(products, hasItem(hasProperty("name", is("Beer"))));
         assertThat(products, hasItem(hasProperty("name", is("Phone"))));
         assertThat(products, hasItem(hasProperty("name", is("Watch"))));
+
+        Assert.assertEquals("TV Set", productService.getProduct(1L).getName());
         productRepository.deleteAll();
+        Assert.assertTrue(productRepository.findAll().isEmpty());
     }
 
 }

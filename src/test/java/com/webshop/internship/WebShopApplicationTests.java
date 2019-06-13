@@ -1,7 +1,7 @@
 package com.webshop.internship;
 
 import com.webshop.internship.controller.ProductController;
-import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,7 @@ public class WebShopApplicationTests {
 
     @Test
     public void contextLoads() {
-        Assertions
-                .assertThat(productController)
-                .isNotNull();
+        Assert.assertNotNull(productController);
     }
 
 }
