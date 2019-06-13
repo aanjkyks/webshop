@@ -14,6 +14,4 @@ public interface ProductService {
     Product getProduct(@Min(value = 1L, message = "Invalid product ID.") Long id);
 
     void save(Product product);
-
-    void update(Long id, String name, Double price, String url);
 }

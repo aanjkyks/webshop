@@ -55,7 +55,7 @@ public class WebShopApplicationTest {
     }
 
     @Test
-    public void sampleProductsIntegrationTest() {
+    public void sampleProductsAPITest() {
 
         ResponseEntity <Iterable <Product>> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api" +
                                                                                            "/products",
@@ -75,18 +75,12 @@ public class WebShopApplicationTest {
 
     @Test
     public void testGetProductById() {
-        Assert.assertEquals("TV Set", productService.getProduct(1L).getName());
         try {
             productService.getProduct(Long.MAX_VALUE);
             Assert.fail();
         } catch (ResourceNotFoundException ignored) {
         }
-    }
-
-    @Test
-    public void testGetAllProducts() {
-        Iterable <Product> products = productService.getAllProducts();
-        Assertions.assertThat(products).hasSize(7);
+        Assert.assertEquals("Game Console", productService.getProduct(2L).getName());
     }
 
     @After

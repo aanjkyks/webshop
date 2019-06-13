@@ -30,15 +30,4 @@ public class ProductServiceImpl implements ProductService {
     public void save(Product product) {
         productRepository.save(product);
     }
-
-    @Override
-    public void update(Long id, String name, Double price, String url) {
-        Product product = this.getProduct(id);
-        product.setName(name);
-        product.setPictureUrl(url);
-        product.setPrice(price);
-        productRepository.save(product);
-    }
-
-
 }
