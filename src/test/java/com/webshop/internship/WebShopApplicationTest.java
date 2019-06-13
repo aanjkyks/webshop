@@ -1,11 +1,14 @@
 package com.webshop.internship;
 
 import com.webshop.internship.controller.ProductController;
+import com.webshop.internship.exception.ResourceNotFoundException;
 import com.webshop.internship.model.Product;
 import com.webshop.internship.repository.ProductRepository;
 import com.webshop.internship.service.ProductService;
 import org.assertj.core.api.Assertions;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +43,8 @@ public class WebShopApplicationTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @Test
-    public void testSampleProducts() {
+    @Before
+    public void addSampleProducts() {
         productService.save(new Product(1L, "TV Set", 300.00, "http://placehold.it/200x100"));
         productService.save(new Product(2L, "Game Console", 200.00, "http://placehold.it/200x100"));
         productService.save(new Product(3L, "Sofa", 100.00, "http://placehold.it/200x100"));
@@ -49,6 +52,11 @@ public class WebShopApplicationTest {
         productService.save(new Product(5L, "Beer", 3.00, "http://placehold.it/200x100"));
         productService.save(new Product(6L, "Phone", 500.00, "http://placehold.it/200x100"));
         productService.save(new Product(7L, "Watch", 30.00, "http://placehold.it/200x100"));
+    }
+
+    @Test
+    public void sampleProductsIntegrationTest() {
+
         ResponseEntity <Iterable <Product>> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api" +
                                                                                            "/products",
                 HttpMethod.GET, null, new ParameterizedTypeReference <Iterable <Product>>() {
@@ -63,10 +71,27 @@ public class WebShopApplicationTest {
         assertThat(products, hasItem(hasProperty("name", is("Beer"))));
         assertThat(products, hasItem(hasProperty("name", is("Phone"))));
         assertThat(products, hasItem(hasProperty("name", is("Watch"))));
+    }
 
+    @Test
+    public void testGetProductById() {
         Assert.assertEquals("TV Set", productService.getProduct(1L).getName());
+        try {
+            productService.getProduct(Long.MAX_VALUE);
+            Assert.fail();
+        } catch (ResourceNotFoundException ignored) {
+        }
+    }
+
+    @Test
+    public void testGetAllProducts() {
+        Iterable <Product> products = productService.getAllProducts();
+        Assertions.assertThat(products).hasSize(7);
+    }
+
+    @After
+    public void deleteAllProducts() {
         productRepository.deleteAll();
-        Assert.assertTrue(productRepository.findAll().isEmpty());
     }
 
 }
