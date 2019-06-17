@@ -1,13 +1,11 @@
 package com.webshop.internship;
 
 import com.webshop.internship.controller.ProductController;
-import com.webshop.internship.exception.ResourceNotFoundException;
 import com.webshop.internship.model.Product;
 import com.webshop.internship.repository.ProductRepository;
 import com.webshop.internship.service.ProductService;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +25,7 @@ import static org.hamcrest.Matchers.hasProperty;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {WebShopApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WebShopApplicationTest {
+public class WebShopApplicationIntegrationTest {
 
     @Autowired
     private ProductService productService;
@@ -71,16 +69,6 @@ public class WebShopApplicationTest {
         assertThat(products, hasItem(hasProperty("name", is("Beer"))));
         assertThat(products, hasItem(hasProperty("name", is("Phone"))));
         assertThat(products, hasItem(hasProperty("name", is("Watch"))));
-    }
-
-    @Test
-    public void testGetProductById() {
-        try {
-            productService.getProduct(Long.MAX_VALUE);
-            Assert.fail();
-        } catch (ResourceNotFoundException ignored) {
-        }
-        Assert.assertEquals("Game Console", productService.getProduct(2L).getName());
     }
 
     @After
