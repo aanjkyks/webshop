@@ -1,12 +1,14 @@
 package com.webshop.internship.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1L, message = "Invalid product ID.")
     private Long id;
 
     @NotNull(message = "Product name is required.")
@@ -20,8 +22,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, @NotNull(message = "Product name is required.") String name, Double price,
-                   String pictureUrl) {
+    public Product(@Min(value = 1L, message = "Invalid product ID.") Long id, @NotNull(message = "Product name is " +
+                                                                                                         "required.") String name, Double price, String pictureUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
