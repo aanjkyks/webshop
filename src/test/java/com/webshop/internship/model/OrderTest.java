@@ -37,9 +37,9 @@ public class OrderTest {
 
         assertEquals(order.getDateCreated(), LocalDate.now());
         assertEquals(Optional.ofNullable(order.getId()), Optional.of(1L));
-        assertEquals(order.getNumberOfProducts(), 1);
+        assertEquals(1, order.getNumberOfProducts());
         assertEquals(order.getOrderProducts(), orderProducts);
-        assertEquals(order.getStatus(), "OK");
+        assertEquals("OK", order.getStatus());
 
     }
 
