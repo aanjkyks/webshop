@@ -3,9 +3,11 @@ package com.webshop.internship.model;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = -8685228676132904478L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1L, message = "Invalid product ID.")

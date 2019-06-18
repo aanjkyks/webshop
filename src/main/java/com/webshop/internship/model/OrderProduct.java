@@ -6,10 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class OrderProduct {
+public class OrderProduct implements Serializable {
+    private static final long serialVersionUID = -9020881006549624384L;
     @EmbeddedId
     @JsonIgnore
     private OrderProductPK pk;

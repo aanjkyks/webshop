@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID = -8279544909966565472L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,10 +29,6 @@ public class Order {
     private List <OrderProduct> orderProducts = new ArrayList <>();
 
     public Order() {
-    }
-
-    public Order(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
@@ -65,8 +63,8 @@ public class Order {
     @Transient
     public Double getTotalOrderPrice() {
         double sum = 0.0;
-        List <OrderProduct> orderProducts = getOrderProducts();
-        for (OrderProduct op : orderProducts) {
+        List <OrderProduct> orderProductList = getOrderProducts();
+        for (OrderProduct op : orderProductList) {
             sum += op.getTotalPrice();
         }
         return sum;
