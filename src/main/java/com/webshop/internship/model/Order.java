@@ -29,6 +29,7 @@ public class Order implements Serializable {
     private List <OrderProduct> orderProducts = new ArrayList <>();
 
     public Order() {
+        //this is a constructor, not a method, Sonar!
     }
 
     public Long getId() {
