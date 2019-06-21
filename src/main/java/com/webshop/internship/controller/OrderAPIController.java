@@ -19,15 +19,15 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderAPIController {
 
-    private static ProductService productService;
-    private static OrderService orderService;
-    private static OrderProductService orderProductService;
+    private ProductService productService;
+    private OrderService orderService;
+    private OrderProductService orderProductService;
 
     public OrderAPIController(ProductService productService, OrderService orderService,
                               OrderProductService orderProductService) {
-        OrderAPIController.productService = productService;
-        OrderAPIController.orderService = orderService;
-        OrderAPIController.orderProductService = orderProductService;
+        this.productService = productService;
+        this.orderService = orderService;
+        this.orderProductService = orderProductService;
     }
 
     @GetMapping

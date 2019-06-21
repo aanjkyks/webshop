@@ -78,6 +78,11 @@ public class WebShopApplicationIntegrationTest {
         assertThat(order.getOrderProducts(), hasItem(hasProperty("quantity", is(2))));
 //        Assert.assertEquals(1, order.getOrderProducts().size());
 //        Assert.assertEquals(Optional.ofNullable(order.getOrderProducts().get(0).getQuantity()), Optional.of(2));
+        ResponseEntity <Order> responseEntity =
+                restTemplate.exchange("http://localhost:" + port + "/order/" + order.getId(), HttpMethod.GET,
+                        null, new ParameterizedTypeReference <Order>() {
+                        });
+        Assert.assertEquals(order, responseEntity.getBody());
     }
 
     private OrderAPIController.OrderForm prepareOrderForm() {
