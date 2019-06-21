@@ -1,6 +1,7 @@
 package com.webshop.internship.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,6 +38,7 @@ public class ApiExceptionHandler {
         return new ResponseEntity <>(error, HttpStatus.NOT_FOUND);
     }
 
+    @Data
     public static class ErrorItem {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -62,6 +64,7 @@ public class ApiExceptionHandler {
 
     }
 
+    @Data
     public static class ErrorResponse {
 
         private List <ErrorItem> errors = new ArrayList <>();
