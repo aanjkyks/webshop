@@ -1,7 +1,9 @@
 package com.webshop.internship.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderProducts")
 public class Order implements Serializable {
     private static final long serialVersionUID = -8279544909966565472L;
     @Id
