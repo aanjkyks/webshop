@@ -7,11 +7,13 @@ import com.webshop.internship.service.OrderService;
 import com.webshop.internship.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @Scope("request")
@@ -48,6 +50,13 @@ public class OrderFormController {
     public ResponseEntity <Order> buy() {
         Order order = orderService.prepare(orderForm);
         orderForm.removeAllProducts();
-        return new ResponseEntity <>(order, HttpStatus.OK);
+        String uri = ServletUriComponentsBuilder
+                             .fromCurrentServletMapping()
+                             .path("api/orders/{id}")
+                             .buildAndExpand(order.getId())
+                             .toString();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", uri);
+        return new ResponseEntity <>(order, headers, HttpStatus.OK);
     }
 }

@@ -49,7 +49,7 @@ public class OrderAPIController {
         Order order = orderService.prepare(form);
         String uri = ServletUriComponentsBuilder
                              .fromCurrentServletMapping()
-                             .path("/orders/{id}")
+                             .path("api/orders/{id}")
                              .buildAndExpand(order.getId())
                              .toString();
         HttpHeaders headers = new HttpHeaders();

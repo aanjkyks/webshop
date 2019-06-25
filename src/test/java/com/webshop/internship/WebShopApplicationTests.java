@@ -1,6 +1,7 @@
 package com.webshop.internship;
 
 import com.webshop.internship.controller.OrderAPIController;
+import com.webshop.internship.controller.OrderFormController;
 import com.webshop.internship.controller.ProductController;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,11 +17,14 @@ public class WebShopApplicationTests {
     private ProductController productController;
     @Autowired
     private OrderAPIController orderController;
+    @Autowired
+    private OrderFormController orderFormController;
 
     @Test
     public void contextLoads() {
         Assert.assertNotNull(productController);
         Assert.assertNotNull(orderController);
+        Assert.assertNotNull(orderFormController);
     }
 
 }
