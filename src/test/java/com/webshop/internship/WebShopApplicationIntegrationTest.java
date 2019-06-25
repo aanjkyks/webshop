@@ -1,8 +1,8 @@
 package com.webshop.internship;
 
-import com.webshop.internship.controller.OrderAPIController;
 import com.webshop.internship.dto.OrderProductDTO;
 import com.webshop.internship.model.Order;
+import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.model.Product;
 import com.webshop.internship.repository.OrderRepository;
 import org.assertj.core.api.Assertions;
@@ -79,14 +79,14 @@ public class WebShopApplicationIntegrationTest {
 //        Assert.assertEquals(1, order.getOrderProducts().size());
 //        Assert.assertEquals(Optional.ofNullable(order.getOrderProducts().get(0).getQuantity()), Optional.of(2));
         ResponseEntity <Order> responseEntity =
-                restTemplate.exchange("http://localhost:" + port + "/order/" + order.getId(), HttpMethod.GET,
+                restTemplate.exchange("http://localhost:" + port + "/api" + "/orders/" + order.getId(), HttpMethod.GET,
                         null, new ParameterizedTypeReference <Order>() {
                         });
         Assert.assertEquals(order, responseEntity.getBody());
     }
 
-    private OrderAPIController.OrderForm prepareOrderForm() {
-        OrderAPIController.OrderForm orderForm = new OrderAPIController.OrderForm();
+    private OrderForm prepareOrderForm() {
+        OrderForm orderForm = new OrderForm();
         OrderProductDTO productDto = new OrderProductDTO();
         productDto.setProduct(new Product(1L, "TV Set", 300.00, "http://placehold.it/200x100"));
         productDto.setQuantity(2);

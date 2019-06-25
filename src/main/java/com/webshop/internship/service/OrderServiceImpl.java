@@ -1,9 +1,9 @@
 package com.webshop.internship.service;
 
-import com.webshop.internship.controller.OrderAPIController;
 import com.webshop.internship.dto.OrderProductDTO;
 import com.webshop.internship.exception.ResourceNotFoundException;
 import com.webshop.internship.model.Order;
+import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.model.OrderProduct;
 import com.webshop.internship.model.OrderStatus;
 import com.webshop.internship.repository.OrderRepository;
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order prepare(OrderAPIController.OrderForm form) {
+    public Order prepare(OrderForm form) {
         List <OrderProductDTO> formDTOs = form.getProductOrders();
         validateProductsExistence(formDTOs);
         Order order = new Order();

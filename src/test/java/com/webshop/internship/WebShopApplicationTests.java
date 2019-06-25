@@ -1,5 +1,6 @@
 package com.webshop.internship;
 
+import com.webshop.internship.controller.OrderAPIController;
 import com.webshop.internship.controller.ProductController;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,10 +14,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class WebShopApplicationTests {
     @Autowired
     private ProductController productController;
+    @Autowired
+    private OrderAPIController orderController;
 
     @Test
     public void contextLoads() {
         Assert.assertNotNull(productController);
+        Assert.assertNotNull(orderController);
     }
 
 }
