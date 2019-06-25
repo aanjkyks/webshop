@@ -76,7 +76,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional <Order> findById(Long id) {
-        return orderRepository.findById(id);
+        return Optional.ofNullable(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Order not found")));
     }
 
     private void validateProductsExistence(List <OrderProductDTO> orderProducts) {
