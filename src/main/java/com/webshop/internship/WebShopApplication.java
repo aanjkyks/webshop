@@ -2,6 +2,7 @@ package com.webshop.internship;
 
 import com.webshop.internship.controller.OrderAPIController;
 import com.webshop.internship.dto.OrderProductDTO;
+import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.model.Product;
 import com.webshop.internship.service.OrderService;
 import com.webshop.internship.service.ProductService;
@@ -45,8 +46,8 @@ public class WebShopApplication {
         };
     }
 
-    private OrderAPIController.OrderForm prepareOrderForm() {
-        OrderAPIController.OrderForm orderForm = new OrderAPIController.OrderForm();
+    private OrderForm prepareOrderForm() {
+        OrderForm orderForm = new OrderForm();
         OrderProductDTO productDto = new OrderProductDTO();
         productDto.setProduct(new Product(2L, "Game Console", 200.00, "http://placehold.it/200x100"));
         productDto.setQuantity(2);

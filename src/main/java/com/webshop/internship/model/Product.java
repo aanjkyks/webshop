@@ -24,8 +24,8 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(@Min(value = 1L, message = "Invalid product ID.") Long id, @NotNull(message = "Product name is " +
-                                                                                                         "required.") String name, Double price, String pictureUrl) {
+    public Product(@Min(value = 1L, message = "Invalid product ID.") Long id,
+                   @NotNull(message = "Product name is required.") String name, Double price, String pictureUrl) {
         this.id = id;
         this.name = name;
         this.price = price;

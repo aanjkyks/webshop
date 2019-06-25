@@ -1,8 +1,8 @@
 package com.webshop.internship.controller;
 
 
-import com.webshop.internship.dto.OrderProductDTO;
 import com.webshop.internship.model.Order;
+import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.service.OrderProductService;
 import com.webshop.internship.service.OrderService;
 import com.webshop.internship.service.ProductService;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -30,13 +30,20 @@ public class OrderAPIController {
         this.orderProductService = orderProductService;
     }
 
-    @GetMapping
+    @GetMapping(value = "{orderId:[\\d]+}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional <Order> getOrder(@PathVariable Long orderId) {
+        return orderService.findById(orderId);
+    }
+
+
+    @GetMapping(value = {"", "/"})
     @ResponseStatus(HttpStatus.OK)
     public @NotNull Iterable <Order> list() {
         return orderService.getAllOrders();
     }
 
-    @PostMapping
+    @PostMapping(value = {"", "/"})
     public ResponseEntity <Order> create(@RequestBody OrderForm form) {
 
         Order order = orderService.prepare(form);
@@ -49,19 +56,5 @@ public class OrderAPIController {
         headers.add("Location", uri);
 
         return new ResponseEntity <>(order, headers, HttpStatus.CREATED);
-    }
-
-
-    public static class OrderForm {
-
-        private List <OrderProductDTO> productOrders;
-
-        public List <OrderProductDTO> getProductOrders() {
-            return productOrders;
-        }
-
-        public void setProductOrders(List <OrderProductDTO> productOrders) {
-            this.productOrders = productOrders;
-        }
     }
 }
