@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = -8279544909966565472L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1L, message = "Invalid order ID.")
     private Long id;
 
     @JsonFormat(pattern = "dd/MM/yyyy")

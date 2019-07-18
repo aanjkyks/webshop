@@ -1,6 +1,6 @@
 package com.webshop.internship;
 
-import com.webshop.internship.controller.OrderAPIController;
+import com.webshop.internship.controller.OrderController;
 import com.webshop.internship.controller.OrderFormController;
 import com.webshop.internship.controller.ProductController;
 import org.junit.Assert;
@@ -16,7 +16,7 @@ public class WebShopApplicationTests {
     @Autowired
     private ProductController productController;
     @Autowired
-    private OrderAPIController orderController;
+    private OrderController orderController;
     @Autowired
     private OrderFormController orderFormController;
 

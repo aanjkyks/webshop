@@ -38,6 +38,13 @@ public class ApiExceptionHandler {
         return new ResponseEntity <>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ErrorItem> handle(NumberFormatException e) {
+        ErrorItem error = new ErrorItem();
+        error.setMessage("Invalid number");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @Data
     public static class ErrorItem {
 

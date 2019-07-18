@@ -5,25 +5,28 @@ import com.webshop.internship.model.Order;
 import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.service.OrderService;
 import com.webshop.internship.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@Controller
+@RestController
 @Scope("request")
 public class OrderFormController {
-    @Autowired
+
     private OrderForm orderForm;
-    @Autowired
     private ProductService productService;
-    @Autowired
     private OrderService orderService;
+
+    public OrderFormController(OrderForm orderForm, ProductService productService, OrderService orderService) {
+        this.orderForm = orderForm;
+        this.productService = productService;
+        this.orderService = orderService;
+    }
 
     @GetMapping("/addToCart")
     public String addToCart(@RequestParam("productId") long id, @RequestParam("quantity") int quantity) {
@@ -36,8 +39,8 @@ public class OrderFormController {
     }
 
     @GetMapping("/cart")
-    public ResponseEntity <OrderForm> getCart() {
-        return new ResponseEntity <>(orderForm, HttpStatus.OK);
+    public ResponseEntity<OrderForm> getCart() {
+        return new ResponseEntity<>(orderForm, HttpStatus.OK);
     }
 
     @GetMapping("/emptyCart")
@@ -47,16 +50,16 @@ public class OrderFormController {
     }
 
     @GetMapping("/buy")
-    public ResponseEntity <Order> buy() {
+    public ResponseEntity<Order> buy() {
         Order order = orderService.prepare(orderForm);
         orderForm.removeAllProducts();
         String uri = ServletUriComponentsBuilder
-                             .fromCurrentServletMapping()
-                             .path("api/orders/{id}")
-                             .buildAndExpand(order.getId())
-                             .toString();
+                .fromCurrentServletMapping()
+                .path("api/orders/{id}")
+                .buildAndExpand(order.getId())
+                .toString();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", uri);
-        return new ResponseEntity <>(order, headers, HttpStatus.OK);
+        return new ResponseEntity<>(order, headers, HttpStatus.OK);
     }
 }

@@ -7,7 +7,6 @@ import com.webshop.internship.model.OrderForm;
 import com.webshop.internship.model.OrderProduct;
 import com.webshop.internship.model.OrderStatus;
 import com.webshop.internship.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,23 +23,17 @@ import java.util.Optional;
 @Transactional
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderService orderService;
-    @Autowired
     private OrderProductService orderProductService;
-
-    @Autowired
     private ProductService productService;
 
-
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderProductService orderProductService, ProductService productService) {
         this.orderRepository = orderRepository;
+        this.orderProductService = orderProductService;
+        this.productService = productService;
     }
 
-
     @Override
-    public @NotNull Iterable <Order> getAllOrders() {
+    public @NotNull Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
@@ -52,20 +45,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order prepare(OrderForm form) {
-        List <OrderProductDTO> formDTOs = form.getProductOrders();
+        List<OrderProductDTO> formDTOs = form.getProductOrders();
         validateProductsExistence(formDTOs);
         Order order = new Order();
         order.setStatus(OrderStatus.PAID.name());
-        order = orderService.create(order);
+        order = create(order);
 
-        List <OrderProduct> orderProducts = new ArrayList <>();
+        List<OrderProduct> orderProducts = new ArrayList<>();
         for (OrderProductDTO dto : formDTOs) {
             orderProducts.add(orderProductService.create(new OrderProduct(order,
                     productService.getProduct(dto.getProduct().getId()), dto.getQuantity())));
         }
 
         order.setOrderProducts(orderProducts);
-        orderService.update(order);
+        update(order);
         return order;
     }
 
@@ -75,13 +68,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional <Order> findById(Long id) {
+    public Optional<Order> findById(Long id) {
         return Optional.ofNullable(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 "Order not found")));
     }
 
-    private void validateProductsExistence(List <OrderProductDTO> orderProducts) {
-        List <OrderProductDTO> list = new ArrayList <>();
+    private void validateProductsExistence(List<OrderProductDTO> orderProducts) {
+        List<OrderProductDTO> list = new ArrayList<>();
         for (OrderProductDTO op : orderProducts) {
             if (!Objects.isNull(productService.getProduct(op.getProduct().getId()))) {
                 list.add(op);

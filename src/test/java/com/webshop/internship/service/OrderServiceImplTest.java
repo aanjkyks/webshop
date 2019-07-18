@@ -23,10 +23,14 @@ public class OrderServiceImplTest {
     private OrderService orderService;
     @Mock
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderProductService orderProductService;
+    @Autowired
+    private ProductService productService;
 
     @Before
     public void setUp() {
-        orderService = new OrderServiceImpl(orderRepository);
+        orderService = new OrderServiceImpl(orderRepository, orderProductService, productService);
     }
 
     @Test
@@ -49,7 +53,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void testGetAllOrders() {
-        Mockito.when(orderRepository.findAll()).thenReturn(new ArrayList <>());
+        Mockito.when(orderRepository.findAll()).thenReturn(new ArrayList<>());
         Assertions.assertThat(orderService.getAllOrders()).hasSize(0);
     }
 }
