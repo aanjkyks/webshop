@@ -39,30 +39,6 @@ public class Order implements Serializable {
         //this is a constructor, not a method, Sonar!
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Transient
     public int getNumberOfProducts() {
         return this.orderProducts.size();
@@ -76,14 +52,6 @@ public class Order implements Serializable {
             sum += op.getTotalPrice();
         }
         return sum;
-    }
-
-    public List <OrderProduct> getOrderProducts() {
-        return orderProducts;
-    }
-
-    public void setOrderProducts(List <OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
     }
 
 }

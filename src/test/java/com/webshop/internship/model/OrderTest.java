@@ -2,7 +2,6 @@ package com.webshop.internship.model;
 
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,24 +22,4 @@ public class OrderTest {
         order.setOrderProducts(orderProducts);
         assertEquals(Optional.of(864.0), Optional.of(order.getTotalOrderPrice()));
     }
-
-    @Test
-    public void testOrder() {
-        Order order = new Order();
-        order.setId(1L);
-        order.setStatus("OK");
-        order.setDateCreated(LocalDate.now());
-        List <OrderProduct> orderProducts = new ArrayList <>();
-        OrderProduct orderProduct = new OrderProduct(new Order(), new Product(), 5);
-        orderProducts.add(orderProduct);
-        order.setOrderProducts(orderProducts);
-
-        assertEquals(order.getDateCreated(), LocalDate.now());
-        assertEquals(Optional.ofNullable(order.getId()), Optional.of(1L));
-        assertEquals(1, order.getNumberOfProducts());
-        assertEquals(order.getOrderProducts(), orderProducts);
-        assertEquals("OK", order.getStatus());
-
-    }
-
 }

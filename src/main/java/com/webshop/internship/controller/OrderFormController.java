@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,14 +29,15 @@ public class OrderFormController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/addToCart")
-    public String addToCart(@RequestParam("productId") long id, @RequestParam("quantity") int quantity) {
+    @PostMapping("/cart")
+    public ResponseEntity<OrderForm> addToCart(@RequestParam("productId") long id,
+                                               @RequestParam("quantity") int quantity) {
         OrderProductDTO productDTO = new OrderProductDTO();
         productDTO.setProduct(productService.getProduct(id));
         productDTO.setQuantity(quantity);
 //        System.out.println(productDTO==null);
         orderForm.addProduct(productDTO);
-        return "redirect:/cart";
+        return new ResponseEntity<>(orderForm, HttpStatus.OK);
     }
 
     @GetMapping("/cart")
@@ -43,13 +45,13 @@ public class OrderFormController {
         return new ResponseEntity<>(orderForm, HttpStatus.OK);
     }
 
-    @GetMapping("/emptyCart")
-    public String emptyCart() {
+    @GetMapping("/cart/empty")
+    public ResponseEntity<OrderForm> emptyCart() {
         orderForm.removeAllProducts();
-        return "redirect:/cart";
+        return new ResponseEntity<>(orderForm, HttpStatus.OK);
     }
 
-    @GetMapping("/buy")
+    @PostMapping("/buy")
     public ResponseEntity<Order> buy() {
         Order order = orderService.prepare(orderForm);
         orderForm.removeAllProducts();
